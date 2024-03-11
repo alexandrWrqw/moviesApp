@@ -1,0 +1,22 @@
+.movie {
+  height: 280px;
+  /* width: 450px; */
+  border: 1px solid red;
+
+  display: flex;
+}
+
+.image {
+  width: 180px;
+  background-color: antiquewhite;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+  padding: 20px;
+
+  width: 100%;
+}

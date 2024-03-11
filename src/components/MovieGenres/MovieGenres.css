@@ -1,0 +1,13 @@
+.genres-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  border: 1px solid green;
+}
+
+.genre {
+  padding: 2px;
+  border: 1px solid red;
+  border-radius: 5px;
+  width: 45px;
+}
