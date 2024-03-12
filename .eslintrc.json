@@ -22,6 +22,7 @@
   "plugins": ["react"],
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/prefer-stateless-function": "off" // class components
+    "react/prefer-stateless-function": "off", // class components
+    "import/no-extraneous-dependencies": "off" // I have "antd" package in dependencies, what a stupid mistake ?
   }
 }
