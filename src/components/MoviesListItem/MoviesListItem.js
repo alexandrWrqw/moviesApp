@@ -1,20 +1,23 @@
 import { Component } from 'react';
+
+import { Flex, Card } from 'antd';
 import './MoviesListItem.css';
 
 import MovieGenres from '../MovieGenres/MovieGenres';
 
+const { Meta } = Card; // antd
+
 export default class MoviesListItem extends Component {
   render() {
     return (
-      <li className="movie">
+      <Flex className="movie" horizontal="true">
         <div className="image">Image</div>
-        <div className="info">
-          <h2>Title</h2>
-          <span>Data</span>
+        <Card className="info" bordered={false}>
+          <Meta title="Title" description="Data" />
           <MovieGenres />
           <p>Description</p>
-        </div>
-      </li>
+        </Card>
+      </Flex>
     );
   }
 }

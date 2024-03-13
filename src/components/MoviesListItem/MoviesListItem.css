@@ -1,22 +1,19 @@
 .movie {
-  height: 280px;
-  /* width: 450px; */
-  border: 1px solid red;
+  flex: 1;
+  box-shadow: 5px 5px 15px -6px rgba(0, 0, 0, 0.242);
+}
 
-  display: flex;
+.movie:last-child {
+  flex: 0 0 49%; /* not 50% because of gap */
 }
 
 .image {
   width: 180px;
+  height: 280px;
   background-color: antiquewhite;
 }
 
 .info {
-  display: flex;
-  flex-direction: column;
-
-  box-sizing: border-box;
-  padding: 20px;
-
-  width: 100%;
+  flex: 1 0;
+  min-width: 270px;
 }
