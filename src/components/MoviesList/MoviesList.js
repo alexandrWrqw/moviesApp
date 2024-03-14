@@ -32,16 +32,18 @@ export default class MoviesList extends Component {
     const { movies } = this.state;
 
     return (
-      <Flex className="reset-list" horizontal="true" wrap="wrap" gap="middle">
-        {movies.map(movie => (
-          <MoviesListItem
-            key={this.maxId++}
-            title={movie.title}
-            date={movie.release_date}
-            description={movie.overview}
-          />
-        ))}
-      </Flex>
+      <ul className="reset-list">
+        <Flex horizontal="true" wrap="wrap" gap="large">
+          {movies.map(movie => (
+            <MoviesListItem
+              key={this.maxId++}
+              title={movie.title}
+              date={movie.release_date}
+              description={movie.overview}
+            />
+          ))}
+        </Flex>
+      </ul>
     );
   }
 }

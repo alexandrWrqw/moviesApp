@@ -1,44 +1,20 @@
 import './MoviesListItem.css';
 
 import PropTypes from 'prop-types';
-import { Flex, Card } from 'antd';
-import { format } from 'date-fns';
+import { Flex } from 'antd';
 
-import MovieGenres from '../MovieGenres/MovieGenres';
+import MovieInfo from '../MovieInfo/MovieInfo';
+
+import image from './Rectangle 36.png';
 
 function MoviesListItem({ title, date, description }) {
-  const limitDescription = text => {
-    if (!text) return '// Author did not provide a description //';
-
-    let str = text.slice(0, 180);
-
-    if (str.length < text.length) {
-      const arr = str.split(' ');
-      arr.splice(arr.length - 1, 1);
-      str = arr.join(' ');
-
-      return `${str} ...`;
-    }
-
-    return text;
-  };
-
-  const { Meta } = Card; // antd MetaComponent
-
   return (
-    <Flex className="movie" horizontal="true">
-      <div className="image">Image</div>
-      <Card className="info" bordered={false}>
-        <Meta
-          title={title}
-          description={
-            date ? format(date, 'MMMM d, y') : 'Release date unknown'
-          }
-        />
-        <MovieGenres />
-        <p>{limitDescription(description)}</p>
-      </Card>
-    </Flex>
+    <li className="movie">
+      <Flex horizontal="true">
+        <img className="image" width={180} height={280} src={image} alt="" />
+        <MovieInfo title={title} date={date} description={description} />
+      </Flex>
+    </li>
   );
 }
 
@@ -50,8 +26,8 @@ MoviesListItem.propTypes = {
 
 MoviesListItem.defaultProps = {
   title: 'Unknown',
-  date: 'Unknown',
-  description: 'None',
+  date: '',
+  description: '',
 };
 
 export default MoviesListItem;
