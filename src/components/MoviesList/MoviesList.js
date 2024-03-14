@@ -1,5 +1,7 @@
 import { Component } from 'react';
+
 import './MoviesList.css';
+
 import { Flex } from 'antd';
 
 import MoviesListItem from '../MoviesListItem/MoviesListItem';
