@@ -1,14 +1,15 @@
 import './MoviesList.css';
 
 import PropTypes from 'prop-types';
-import { Flex } from 'antd';
+import { Flex, Alert } from 'antd';
 
 import MoviesListItem from '../MoviesListItem/MoviesListItem';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
-function MoviesList({ movies, loading, error }) {
+function MoviesList({ movies, loading, error, label }) {
   const hasData = !(loading || error);
+  const noResults = movies.length === 0 && label !== '' && loading === false;
 
   const spinner = loading ? <LoadingSpinner /> : null;
 
@@ -25,12 +26,20 @@ function MoviesList({ movies, loading, error }) {
 
   const errorMessage = error ? <ErrorMessage /> : null;
 
+  const nullResults = noResults ? (
+    <Alert
+      message={`Movies with the title '${label}' not found`}
+      type="warning"
+    />
+  ) : null;
+
   return (
     <ul className="reset-list">
       <Flex horizontal="true" wrap="wrap" gap="large" justify="center">
         {spinner}
         {content}
         {errorMessage}
+        {nullResults}
       </Flex>
     </ul>
   );
@@ -40,12 +49,14 @@ MoviesList.propTypes = {
   movies: PropTypes.array,
   loading: PropTypes.bool,
   error: PropTypes.bool,
+  label: PropTypes.string,
 };
 
 MoviesList.defaultProps = {
   movies: [],
   loading: false,
   error: false,
+  label: '',
 };
 
 export default MoviesList;
