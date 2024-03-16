@@ -1,58 +1,39 @@
 import './MoviesList.css';
 
-import { Component } from 'react';
-
 import PropTypes from 'prop-types';
-import { Flex, Spin, Alert } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Flex } from 'antd';
 
 import MoviesListItem from '../MoviesListItem/MoviesListItem';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
-export default class MoviesList extends Component {
-  maxId = 1;
+function MoviesList({ movies, loading, error }) {
+  const hasData = !(loading || error);
 
-  render() {
-    const { movies, loading, error } = this.props;
+  const spinner = loading ? <LoadingSpinner /> : null;
 
-    const hasData = !(loading || error);
+  const content = hasData
+    ? movies.map(movie => (
+        <MoviesListItem
+          key={movie.id}
+          title={movie.title}
+          date={movie.release_date}
+          description={movie.overview}
+        />
+      ))
+    : null;
 
-    const spinner = loading ? (
-      <Spin indicator={<LoadingOutlined style={{ fontSize: 44 }} spin />} />
-    ) : null;
+  const errorMessage = error ? <ErrorMessage /> : null;
 
-    const content = hasData
-      ? movies.map(movie => (
-          <MoviesListItem
-            key={this.maxId++}
-            title={movie.title}
-            date={movie.release_date}
-            description={movie.overview}
-          />
-        ))
-      : null;
-
-    const errorMessage = error ? (
-      <Alert
-        style={{ whiteSpace: 'pre-line' }}
-        message="Error"
-        description={`Access to the list of films is temporarily unavailable :(
-          Try turning it on VPN or reload the page. 
-          If this doesn’t help, then we are already working on the problem!`}
-        type="error"
-        showIcon
-      />
-    ) : null;
-
-    return (
-      <ul className="reset-list">
-        <Flex horizontal="true" wrap="wrap" gap="large" justify="center">
-          {spinner}
-          {content}
-          {errorMessage}
-        </Flex>
-      </ul>
-    );
-  }
+  return (
+    <ul className="reset-list">
+      <Flex horizontal="true" wrap="wrap" gap="large" justify="center">
+        {spinner}
+        {content}
+        {errorMessage}
+      </Flex>
+    </ul>
+  );
 }
 
 MoviesList.propTypes = {
@@ -66,3 +47,5 @@ MoviesList.defaultProps = {
   loading: false,
   error: false,
 };
+
+export default MoviesList;
