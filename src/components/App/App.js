@@ -3,7 +3,7 @@ import './App.css';
 import { Component } from 'react';
 
 import { Offline } from 'react-detect-offline';
-import { Input } from 'antd';
+import { Input, Pagination } from 'antd';
 import debounce from 'lodash.debounce';
 
 import MoviesList from '../MoviesList/MoviesList';
@@ -18,22 +18,28 @@ export default class App extends Component {
 
     this.state = {
       movies: [],
+      label: '',
+      page: 1,
+      totalMoviesAmt: null,
       loading: false,
       error: false,
-      label: '',
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { label } = this.state;
+    const { label, page } = this.state;
 
     if (label !== prevState.label) {
+      this.getMovies();
+    }
+
+    if (page !== prevState.page) {
       this.getMovies();
     }
   }
 
   getMovies = () => {
-    const { label } = this.state;
+    const { label, page } = this.state;
 
     if (label.trim() === '') {
       this.onClear();
@@ -41,13 +47,17 @@ export default class App extends Component {
     }
 
     this.moviesServices
-      .getMoviesData(label)
+      .getMoviesData(label, page)
       .then(res => this.onLoadingMovies(res))
       .catch(this.onErrorMovies);
   };
 
   onLoadingMovies = res => {
-    this.setState({ movies: res, loading: false });
+    this.setState({
+      movies: res.results,
+      loading: false,
+      totalMoviesAmt: res.total_results,
+    });
   };
 
   onErrorMovies = () => {
@@ -55,15 +65,35 @@ export default class App extends Component {
   };
 
   onClear = () => {
-    this.setState({ movies: [], loading: false, error: false });
+    this.setState({
+      movies: [],
+      page: 1,
+      totalMoviesAmt: null,
+      loading: false,
+      error: false,
+    });
   };
 
   onChangeLabel = e => {
     this.setState({ label: e.target.value, loading: true });
   };
 
+  onChangePage = nextPage => {
+    this.setState({ page: nextPage });
+  };
+
   render() {
-    const { movies, loading, error, label } = this.state;
+    const { movies, loading, error, label, totalMoviesAmt, page } = this.state;
+
+    const pagination =
+      totalMoviesAmt > 1 ? (
+        <Pagination
+          defaultPageSize={20}
+          current={page}
+          onChange={this.onChangePage}
+          total={totalMoviesAmt}
+        />
+      ) : null;
 
     return (
       <>
@@ -73,7 +103,6 @@ export default class App extends Component {
 
         <div className="container">
           <Input
-            style={{ marginBottom: '25px' }}
             placeholder="Type to search..."
             onChange={debounce(this.onChangeLabel, 550)}
             spellCheck="false"
@@ -84,6 +113,7 @@ export default class App extends Component {
             error={error}
             label={label}
           />
+          {pagination}
         </div>
       </>
     );

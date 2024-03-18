@@ -10,12 +10,12 @@ export default class MoviesService {
     },
   };
 
-  async getMoviesData(movieName) {
+  async getMoviesData(movieName, page) {
     const res = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${movieName}&include_adult=false&language=en-US&page=1`,
+      `https://api.themoviedb.org/3/search/movie?query=${movieName}&include_adult=false&language=en-US&page=${page}`,
       this.options
     );
     const body = await res.json();
-    return body.results;
+    return body;
   }
 }
