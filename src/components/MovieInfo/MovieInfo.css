@@ -1,0 +1,13 @@
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-rating {
+  padding: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 50%;
+  align-self: flex-start;
+}

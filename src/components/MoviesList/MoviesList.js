@@ -21,6 +21,8 @@ function MoviesList({ movies, loading, error, label }) {
           date={movie.release_date}
           description={movie.overview}
           imagePath={movie.poster_path}
+          rating={movie.vote_average}
+          genresId={movie.genre_ids}
         />
       ))
     : null;
@@ -31,7 +33,11 @@ function MoviesList({ movies, loading, error, label }) {
     noResults && !error ? <NoResultsMessage label={label} /> : null;
 
   return (
-    <ul className="reset-list grid">
+    <ul
+      className={
+        loading || error || noResults ? 'reset-list' : 'reset-list grid'
+      }
+    >
       {spinner}
       {content}
       {errorMessage}

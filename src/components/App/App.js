@@ -3,15 +3,16 @@ import './App.css';
 import { Component } from 'react';
 
 import { Offline } from 'react-detect-offline';
-import { Input, Pagination } from 'antd';
+import { Input, Pagination, Tabs } from 'antd';
 import debounce from 'lodash.debounce';
 
 import MoviesList from '../MoviesList/MoviesList';
 import MoviesService from '../../services/MoviesService';
 import OfflineWarning from '../OfflineWarning/OfflineWarning';
+import GenresContext from '../../services/GenresContext';
 
 export default class App extends Component {
-  moviesServices = new MoviesService();
+  moviesService = new MoviesService();
 
   constructor() {
     super();
@@ -20,10 +21,15 @@ export default class App extends Component {
       movies: [],
       label: '',
       page: 1,
-      totalMoviesAmt: null,
+      totalPages: null,
+      totalMovies: null,
       loading: false,
       error: false,
     };
+  }
+
+  componentDidMount() {
+    this.getGenres();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -46,18 +52,27 @@ export default class App extends Component {
       return;
     }
 
-    this.moviesServices
+    this.moviesService
       .getMoviesData(label, page)
-      .then(res => this.onLoadingMovies(res))
+      .then(res => this.onloadMovies(res))
       .catch(this.onErrorMovies);
   };
 
-  onLoadingMovies = res => {
+  getGenres = () => {
+    this.moviesService.getGenresData().then(res => this.onloadGenres(res));
+  };
+
+  onloadMovies = res => {
     this.setState({
       movies: res.results,
       loading: false,
-      totalMoviesAmt: res.total_results,
+      totalMovies: res.total_results,
+      totalPages: res.total_pages,
     });
+  };
+
+  onloadGenres = res => {
+    this.genres = res.genres;
   };
 
   onErrorMovies = () => {
@@ -68,7 +83,8 @@ export default class App extends Component {
     this.setState({
       movies: [],
       page: 1,
-      totalMoviesAmt: null,
+      totalPages: null,
+      totalMovies: null,
       loading: false,
       error: false,
     });
@@ -83,17 +99,51 @@ export default class App extends Component {
   };
 
   render() {
-    const { movies, loading, error, label, totalMoviesAmt, page } = this.state;
+    const { movies, loading, error, label, totalPages, page, totalMovies } =
+      this.state;
 
     const pagination =
-      totalMoviesAmt > 1 ? (
+      totalPages > 1 ? (
         <Pagination
           defaultPageSize={20}
           current={page}
           onChange={this.onChangePage}
-          total={totalMoviesAmt}
+          total={totalMovies}
         />
       ) : null;
+
+    const searchTab = (
+      <div className="tab-container">
+        <Input
+          placeholder="Type to search..."
+          onChange={debounce(this.onChangeLabel, 550)}
+          spellCheck="false"
+        />
+        <MoviesList
+          movies={movies}
+          loading={loading}
+          error={error}
+          label={label}
+        />
+        {!loading && !error ? pagination : null}
+      </div>
+    );
+
+    const ratedTab = <div className="tab-container">content</div>;
+
+    const tabs = [
+      {
+        key: '1',
+        label: 'Search',
+        children: searchTab,
+      },
+
+      {
+        key: '2',
+        label: 'Rated',
+        children: ratedTab,
+      },
+    ];
 
     return (
       <>
@@ -102,18 +152,15 @@ export default class App extends Component {
         </Offline>
 
         <div className="container">
-          <Input
-            placeholder="Type to search..."
-            onChange={debounce(this.onChangeLabel, 550)}
-            spellCheck="false"
-          />
-          <MoviesList
-            movies={movies}
-            loading={loading}
-            error={error}
-            label={label}
-          />
-          {pagination}
+          <GenresContext.Provider value={this.genres}>
+            <Tabs
+              style={{ width: '100%' }}
+              size="large"
+              defaultActiveKey="1"
+              items={tabs}
+              centered
+            />
+          </GenresContext.Provider>
         </div>
       </>
     );

@@ -18,4 +18,13 @@ export default class MoviesService {
     const body = await res.json();
     return body;
   }
+
+  async getGenresData() {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/genre/movie/list?language=en`,
+      this.options
+    );
+    const body = await res.json();
+    return body;
+  }
 }

@@ -9,6 +9,7 @@ body {
 h2 {
   margin: 0;
   font-size: 20px;
+  line-height: 1.1;
 }
 
 p {
@@ -16,15 +17,10 @@ p {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-
   max-width: 1010px;
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 30px;
+  padding: 0 30px 30px 30px;
   background: #fff;
 
   box-shadow:
@@ -32,10 +28,21 @@ p {
     inset 0px 0px 10px 1px rgba(0, 0, 0, 0.305);
 }
 
+.tab-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .reset-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+.ant-tabs-nav::before {
+  display: none; /* andt style borderBottom in tabs */
 }
 
 @media screen and (max-width: 960px) {
