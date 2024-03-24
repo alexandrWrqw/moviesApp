@@ -8,12 +8,16 @@ import MovieInfo from '../MovieInfo/MovieInfo';
 import defaultImage from './noImage.png';
 
 function MoviesListItem({
+  movieId,
   title,
   date,
   description,
   imagePath,
   rating,
   genresId,
+  saveStarRating,
+  hasStarRating,
+  getStarRating,
 }) {
   const imageSrc = `https://image.tmdb.org/t/p/original${imagePath}`;
 
@@ -28,11 +32,15 @@ function MoviesListItem({
           alt=""
         />
         <MovieInfo
+          movieId={movieId}
           title={title}
           date={date}
           description={description}
           rating={rating}
           genresId={genresId}
+          saveStarRating={saveStarRating}
+          hasStarRating={hasStarRating}
+          getStarRating={getStarRating}
         />
       </Flex>
     </li>
@@ -46,6 +54,10 @@ MoviesListItem.propTypes = {
   imagePath: PropTypes.string,
   rating: PropTypes.number,
   genresId: PropTypes.array,
+  movieId: PropTypes.number.isRequired,
+  saveStarRating: PropTypes.func.isRequired,
+  hasStarRating: PropTypes.func.isRequired,
+  getStarRating: PropTypes.func.isRequired,
 };
 
 MoviesListItem.defaultProps = {

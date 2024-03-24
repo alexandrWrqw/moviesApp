@@ -7,7 +7,15 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import NoResultsMessage from '../NoResultsMessage/NoResultsMessage';
 
-function MoviesList({ movies, loading, error, label }) {
+function MoviesList({
+  movies,
+  loading,
+  error,
+  label,
+  saveStarRating,
+  hasStarRating,
+  getStarRating,
+}) {
   const noResults =
     movies.length === 0 && label.trim() !== '' && loading === false;
 
@@ -17,12 +25,16 @@ function MoviesList({ movies, loading, error, label }) {
     ? movies.map(movie => (
         <MoviesListItem
           key={movie.id}
+          movieId={movie.id}
           title={movie.title}
           date={movie.release_date}
           description={movie.overview}
           imagePath={movie.poster_path}
           rating={movie.vote_average}
           genresId={movie.genre_ids}
+          saveStarRating={saveStarRating}
+          hasStarRating={hasStarRating}
+          getStarRating={getStarRating}
         />
       ))
     : null;
@@ -51,6 +63,9 @@ MoviesList.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.bool,
   label: PropTypes.string,
+  saveStarRating: PropTypes.func.isRequired,
+  hasStarRating: PropTypes.func.isRequired,
+  getStarRating: PropTypes.func.isRequired,
 };
 
 MoviesList.defaultProps = {

@@ -23,6 +23,7 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-extraneous-dependencies": "off", // I have "antd" package in dependencies, what a stupid mistake ?
-    "react/forbid-prop-types": "off"
+    "react/forbid-prop-types": "off",
+    "no-plusplus": "off"
   }
 }

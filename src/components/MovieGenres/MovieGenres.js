@@ -3,10 +3,11 @@ import './MovieGenres.css';
 import PropTypes from 'prop-types';
 import { Flex, Tag } from 'antd';
 
-import GenresContext from '../../services/GenresContext';
+import MoviesServiceContext from '../../services/MoviesServiceContext';
 
 function MovieGenres({ genresId }) {
   const getGenres = array => {
+    let idx = 1;
     const resultGenres = [];
 
     if (genresId.length === 0) {
@@ -19,17 +20,21 @@ function MovieGenres({ genresId }) {
       );
     });
 
-    return resultGenres.map(genre => <Tag className="genre">{genre}</Tag>);
+    return resultGenres.map(genre => (
+      <Tag key={idx++} className="genre">
+        {genre}
+      </Tag>
+    ));
   };
 
   return (
-    <GenresContext.Consumer>
+    <MoviesServiceContext.Consumer>
       {value => (
         <Flex className="genres-list" wrap="wrap" gap="small">
-          {getGenres(value)}
+          {getGenres(value.allGenres)}
         </Flex>
       )}
-    </GenresContext.Consumer>
+    </MoviesServiceContext.Consumer>
   );
 }
 
