@@ -21,17 +21,11 @@ function MoviesList({
 
   const spinner = loading ? <LoadingSpinner /> : null;
 
-  const content = !(loading || error)
+  const content = !(loading || error || noResults)
     ? movies.map(movie => (
         <MoviesListItem
           key={movie.id}
-          movieId={movie.id}
-          title={movie.title}
-          date={movie.release_date}
-          description={movie.overview}
-          imagePath={movie.poster_path}
-          rating={movie.vote_average}
-          genresId={movie.genre_ids}
+          movie={movie}
           saveStarRating={saveStarRating}
           hasStarRating={hasStarRating}
           getStarRating={getStarRating}
@@ -72,7 +66,7 @@ MoviesList.defaultProps = {
   movies: [],
   loading: false,
   error: false,
-  label: '',
+  label: 'ratedTab',
 };
 
 export default MoviesList;

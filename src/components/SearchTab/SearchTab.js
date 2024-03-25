@@ -118,10 +118,10 @@ export default class SearchTab extends Component {
   }
 }
 
+SearchTab.contextType = MoviesServiceContext;
+
 SearchTab.propTypes = {
   saveStarRating: PropTypes.func.isRequired,
   hasStarRating: PropTypes.func.isRequired,
   getStarRating: PropTypes.func.isRequired,
 };
-
-SearchTab.contextType = MoviesServiceContext;

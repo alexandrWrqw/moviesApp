@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 export default class MoviesService {
   apiBase = 'https://api.themoviedb.org/3';
 
@@ -50,7 +51,7 @@ export default class MoviesService {
     return body;
   };
 
-  getRatedMoviesData = async () => {
+  getRatedMoviesData = async page => {
     const options = {
       method: 'GET',
       headers: {
@@ -59,7 +60,7 @@ export default class MoviesService {
     };
 
     const res = await fetch(
-      `${this.apiBase}/guest_session/${this.guestSessionId}/rated/movies?api_key=${this.apiKey}&language=en-US&page=1&sort_by=created_at.asc`,
+      `${this.apiBase}/guest_session/${this.guestSessionId}/rated/movies?api_key=${this.apiKey}&language=en-US&page=${page}&sort_by=created_at.asc`,
       options
     );
     const body = await res.json();

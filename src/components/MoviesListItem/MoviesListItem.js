@@ -8,18 +8,12 @@ import MovieInfo from '../MovieInfo/MovieInfo';
 import defaultImage from './noImage.png';
 
 function MoviesListItem({
-  movieId,
-  title,
-  date,
-  description,
-  imagePath,
-  rating,
-  genresId,
+  movie,
   saveStarRating,
   hasStarRating,
   getStarRating,
 }) {
-  const imageSrc = `https://image.tmdb.org/t/p/original${imagePath}`;
+  const imageSrc = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
 
   return (
     <li className="movie">
@@ -28,16 +22,11 @@ function MoviesListItem({
           className="image"
           width={180}
           height={280}
-          src={imagePath == null ? defaultImage : imageSrc}
+          src={movie.poster_path == null ? defaultImage : imageSrc}
           alt=""
         />
         <MovieInfo
-          movieId={movieId}
-          title={title}
-          date={date}
-          description={description}
-          rating={rating}
-          genresId={genresId}
+          movie={movie}
           saveStarRating={saveStarRating}
           hasStarRating={hasStarRating}
           getStarRating={getStarRating}
@@ -48,25 +37,14 @@ function MoviesListItem({
 }
 
 MoviesListItem.propTypes = {
-  title: PropTypes.string,
-  date: PropTypes.string,
-  description: PropTypes.string,
-  imagePath: PropTypes.string,
-  rating: PropTypes.number,
-  genresId: PropTypes.array,
-  movieId: PropTypes.number.isRequired,
+  movie: PropTypes.object,
   saveStarRating: PropTypes.func.isRequired,
   hasStarRating: PropTypes.func.isRequired,
   getStarRating: PropTypes.func.isRequired,
 };
 
 MoviesListItem.defaultProps = {
-  title: 'Unknown',
-  date: '',
-  description: '',
-  imagePath: null,
-  rating: null,
-  genresId: [],
+  movie: {},
 };
 
 export default MoviesListItem;

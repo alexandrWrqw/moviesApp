@@ -43,20 +43,20 @@ export default class MovieInfo extends Component {
   }
 
   componentDidMount() {
-    const { hasStarRating, getStarRating, movieId } = this.props;
+    const { movie, hasStarRating, getStarRating } = this.props;
 
-    const hasStar = hasStarRating(movieId);
-    if (hasStar) this.onSynchStarRating(getStarRating(movieId));
+    const hasStar = hasStarRating(movie.id);
+    if (hasStar) this.onSynchStarRating(getStarRating(movie.id));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { movieId } = this.props;
+    const { movie } = this.props;
     const { starRating } = this.state;
 
     if (prevState.starRating !== starRating) {
       const MovieService = this.context;
 
-      MovieService.addMovieRating(movieId, starRating)
+      MovieService.addMovieRating(movie.id, starRating)
         .then(res => res)
         .catch(error => error);
     }
@@ -67,44 +67,48 @@ export default class MovieInfo extends Component {
   };
 
   onChangeRating = newRating => {
-    const { movieId, saveStarRating } = this.props;
+    const { movie, saveStarRating } = this.props;
 
     this.setState({ starRating: newRating });
 
-    saveStarRating(movieId, newRating);
+    saveStarRating(movie.id, newRating);
   };
 
   render() {
-    const { title, date, description, rating, genresId } = this.props;
+    const { movie } = this.props;
     const { starRating } = this.state;
 
     return (
       <div className="info">
         <div>
           <Flex justify="space-between" gap="5px">
-            <h2>{this.limitText(title, 40)}</h2>
+            <h2>{this.limitText(movie.title, 40)}</h2>
             <div
               className="movie-rating"
               style={{
-                borderColor: this.ratingBorderColor(Math.floor(rating)),
+                borderColor: this.ratingBorderColor(
+                  Math.floor(movie.vote_average)
+                ),
               }}
             >
-              {rating.toFixed(1)}
+              {movie.vote_average.toFixed(1)}
             </div>
           </Flex>
 
-          <span style={date ? null : { color: 'silver' }}>
-            {date ? format(date, 'MMMM d, y') : 'Release date unknown'}
+          <span style={movie.release_date ? null : { color: 'silver' }}>
+            {movie.release_date
+              ? format(movie.release_date, 'MMMM d, y')
+              : 'Release date unknown'}
           </span>
 
-          <MovieGenres genresId={genresId} />
+          <MovieGenres genresId={movie.genre_ids} />
 
           <p
             className="movie-description"
-            style={description ? null : { color: 'silver' }}
+            style={movie.overview ? null : { color: 'silver' }}
           >
-            {description
-              ? this.limitText(description, 140)
+            {movie.overview
+              ? this.limitText(movie.overview, 140)
               : '// Author did not provide a description //'}
           </p>
         </div>
@@ -123,21 +127,12 @@ export default class MovieInfo extends Component {
 MovieInfo.contextType = MoviesServiceContext;
 
 MovieInfo.propTypes = {
-  title: PropTypes.string,
-  date: PropTypes.string,
-  description: PropTypes.string,
-  rating: PropTypes.number,
-  genresId: PropTypes.array,
-  movieId: PropTypes.number.isRequired,
+  movie: PropTypes.object,
   saveStarRating: PropTypes.func.isRequired,
   hasStarRating: PropTypes.func.isRequired,
   getStarRating: PropTypes.func.isRequired,
 };
 
 MovieInfo.defaultProps = {
-  title: 'Unknown',
-  date: '',
-  description: '',
-  rating: null,
-  genresId: [],
+  movie: {},
 };

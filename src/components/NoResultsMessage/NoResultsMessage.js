@@ -2,12 +2,12 @@ import { Alert } from 'antd';
 import PropTypes from 'prop-types';
 
 function NoResultsMessage({ label }) {
-  return (
-    <Alert
-      message={`Movies with the title '${label}' not found`}
-      type="warning"
-    />
-  );
+  const forSearchTab = `Movies with the title '${label}' not found`;
+  const forRatedTab = `No rated movies found`;
+
+  const messageText = label === 'ratedTab' ? forRatedTab : forSearchTab;
+
+  return <Alert message={messageText} type="warning" />;
 }
 
 NoResultsMessage.propTypes = {
