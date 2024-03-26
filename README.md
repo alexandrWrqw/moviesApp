@@ -1,1 +1,1 @@
-https://alexandrWrqw.github.io/moviesApp
+https://movies-app-three-ecru.vercel.app/
