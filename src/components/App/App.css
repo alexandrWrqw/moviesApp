@@ -41,6 +41,12 @@ p {
   margin: 0;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  gap: 25px;
+}
+
 .ant-tabs-nav::before {
   display: none; /* andt style borderBottom in tabs */
 }
@@ -48,5 +54,11 @@ p {
 @media screen and (max-width: 960px) {
   .container {
     max-width: 720px;
+  }
+}
+
+@media screen and (max-width: 710px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   }
 }

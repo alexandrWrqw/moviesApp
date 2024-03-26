@@ -29,7 +29,7 @@ export default class MoviesService {
     this.guestSessionId = res;
   };
 
-  saveAllGenres = res => {
+  saveAllGenres = (res = []) => {
     this.allGenres = res;
   };
 

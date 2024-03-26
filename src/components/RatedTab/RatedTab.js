@@ -53,7 +53,7 @@ export default class RatedTab extends Component {
   };
 
   onErrorRatedMovies = () => {
-    this.setState({ error: true });
+    this.setState({ error: true, loading: false });
   };
 
   saveRatedMovies = res => {

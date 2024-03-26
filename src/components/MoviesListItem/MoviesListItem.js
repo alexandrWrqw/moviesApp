@@ -17,11 +17,9 @@ function MoviesListItem({
 
   return (
     <li className="movie">
-      <Flex horizontal="true">
+      <Flex horizontal="true" style={{ height: 'inherit' }}>
         <img
           className="image"
-          width={180}
-          height={280}
           src={movie.poster_path == null ? defaultImage : imageSrc}
           alt=""
         />

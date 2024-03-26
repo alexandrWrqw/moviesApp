@@ -1,10 +1,12 @@
 .movie {
-  flex: 1 0;
   box-shadow: 5px 0 25px 0 rgba(0, 0, 0, 0.356);
-  min-width: 380px;
 
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+
+  position: relative;
+
+  height: 280px;
 }
 
 .info {
@@ -13,4 +15,26 @@
 
 .info > *:not(:last-child) {
   margin-bottom: 10px;
+}
+
+.image {
+  width: 180px;
+  height: 280px;
+}
+
+@media screen and (max-width: 960px) {
+  .image {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    width: 80px;
+    height: 110px;
+  }
+}
+
+@media screen and (max-width: 710px) {
+  .movie {
+    height: 245px;
+  }
 }

@@ -81,7 +81,7 @@ export default class MovieInfo extends Component {
     return (
       <div className="info">
         <div>
-          <Flex justify="space-between" gap="5px">
+          <Flex className="padding-left" justify="space-between" gap="5px">
             <h2>{this.limitText(movie.title, 40)}</h2>
             <div
               className="movie-rating"
@@ -95,7 +95,10 @@ export default class MovieInfo extends Component {
             </div>
           </Flex>
 
-          <span style={movie.release_date ? null : { color: 'silver' }}>
+          <span
+            className="padding-left"
+            style={movie.release_date ? null : { color: 'silver' }}
+          >
             {movie.release_date
               ? format(movie.release_date, 'MMMM d, y')
               : 'Release date unknown'}
@@ -109,7 +112,7 @@ export default class MovieInfo extends Component {
           >
             {movie.overview
               ? this.limitText(movie.overview, 140)
-              : '// Author did not provide a description //'}
+              : '// Author did not provide a description'}
           </p>
         </div>
 

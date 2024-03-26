@@ -1,13 +1,15 @@
 import './MovieGenres.css';
 
+import { Component } from 'react';
+
 import PropTypes from 'prop-types';
 import { Flex, Tag } from 'antd';
 
 import MoviesServiceContext from '../../services/MoviesServiceContext';
 
-function MovieGenres({ genresId }) {
-  const getGenres = array => {
-    let idx = 1;
+export default class MovieGenres extends Component {
+  getGenres = array => {
+    const { genresId } = this.props;
     const resultGenres = [];
 
     if (genresId.length === 0) {
@@ -20,23 +22,26 @@ function MovieGenres({ genresId }) {
       );
     });
 
-    return resultGenres.map(genre => (
-      <Tag key={idx++} className="genre">
-        {genre}
-      </Tag>
-    ));
+    return resultGenres;
   };
 
-  return (
-    <MoviesServiceContext.Consumer>
-      {value => (
-        <Flex className="genres-list" wrap="wrap" gap="small">
-          {getGenres(value.allGenres)}
-        </Flex>
-      )}
-    </MoviesServiceContext.Consumer>
-  );
+  render() {
+    const MovieService = this.context;
+    let idx = 1;
+
+    return (
+      <Flex className="genres-list" wrap="wrap" gap="small">
+        {this.getGenres(MovieService.allGenres).map(genre => (
+          <Tag key={idx++} className="genre">
+            {genre}
+          </Tag>
+        ))}
+      </Flex>
+    );
+  }
 }
+
+MovieGenres.contextType = MoviesServiceContext;
 
 MovieGenres.propTypes = {
   genresId: PropTypes.array,
@@ -45,5 +50,3 @@ MovieGenres.propTypes = {
 MovieGenres.defaultProps = {
   genresId: [],
 };
-
-export default MovieGenres;

@@ -1,5 +1,3 @@
-import './MoviesList.css';
-
 import PropTypes from 'prop-types';
 
 import MoviesListItem from '../MoviesListItem/MoviesListItem';

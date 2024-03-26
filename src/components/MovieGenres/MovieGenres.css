@@ -5,3 +5,10 @@
 .genre {
   margin: 0;
 }
+
+@media screen and (max-width: 960px) {
+  .genres-list {
+    padding-left: 85px;
+    margin: 15px 0 15px 0;
+  }
+}
